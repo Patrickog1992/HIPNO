@@ -217,22 +217,22 @@ const SalesPage = ({ answers }: { answers: UserAnswers }) => {
     {
         img: "https://i.imgur.com/BJPY2Qu.jpeg",
         text: "Eu achava que era ansiedade, mas era falta de controle mental. Em 2 semanas, passei de 5 minutos para quase 25. Minha esposa nem acreditou.",
-        name: "Carlos M., 34 anos"
+        name: "Carlos M."
     },
     {
         img: "https://i.imgur.com/tBgJKYL.jpeg",
         text: "Já tinha tentado pílulas, sprays, tudo. O HipnoDURA+ foi a única coisa que me fez sentir no comando de verdade. Sensação indescritível.",
-        name: "Roberto S., 42 anos"
+        name: "Roberto S."
     },
     {
         img: "https://i.imgur.com/fPRKetm.jpeg",
         text: "A primeira sessão já me deixou mais calmo. Hoje, consigo controlar exatamente quando quero chegar lá. Mudou meu casamento.",
-        name: "André L., 29 anos"
+        name: "André L."
     },
     {
         img: "https://i.imgur.com/go7d1Ms.jpeg",
         text: "Simplesmente funciona. É como se você reprogramasse o cérebro para não ter pressa. Recomendo demais.",
-        name: "Fernando P., 38 anos"
+        name: "Fernando P."
     }
   ];
 
