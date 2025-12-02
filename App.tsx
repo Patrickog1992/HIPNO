@@ -33,14 +33,17 @@ const Button = ({ onClick, children, className = "", variant = "primary" }: any)
 
 const Layout = ({ children, className = "" }: { children?: React.ReactNode, className?: string }) => (
   <div className={`min-h-screen bg-gray-50 flex flex-col items-center font-['Poppins'] ${className}`}>
-    <div className="w-full max-w-md bg-white min-h-screen shadow-2xl flex flex-col">
+    <div className="w-full max-w-md bg-white min-h-screen shadow-2xl flex flex-col pb-20">
+      <div className="flex justify-center pt-6 pb-2">
+        <img src="https://i.imgur.com/qCa9DCR.jpg" alt="HipnoDURA Logo" className="w-[100px] h-[100px] object-contain" />
+      </div>
       {children}
     </div>
   </div>
 );
 
 const Header = ({ progress }: { progress: number }) => (
-  <div className="px-6 pt-6 pb-2">
+  <div className="px-6 pt-2 pb-2">
     <div className="w-full bg-gray-200 h-2 rounded-full overflow-hidden">
       <div 
         className="h-full bg-green-500 transition-all duration-500 ease-out" 
@@ -248,6 +251,10 @@ const SalesPage = ({ answers }: { answers: UserAnswers }) => {
         <p className="text-sm font-medium">
           VOCÊ ACABA DE GANHAR <span className="font-bold text-yellow-300">60% DE DESCONTO</span> VÁLIDO SOMENTE EM: <span className="font-mono font-bold text-yellow-300 text-lg ml-1">{formatTime(timeLeft)}</span>
         </p>
+      </div>
+
+      <div className="w-full flex justify-center py-6">
+        <img src="https://i.imgur.com/qCa9DCR.jpg" alt="HipnoDURA Logo" className="w-[100px] h-[100px] object-contain" />
       </div>
 
       <div className="max-w-md mx-auto px-6 py-8 space-y-12">
@@ -528,9 +535,10 @@ export default function App() {
   const now = new Date();
   const months = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
   const currentMonthName = months[now.getMonth()];
-  const nextMonthDate = new Date(now);
-  nextMonthDate.setMonth(now.getMonth() + 1);
-  const nextMonthName = months[nextMonthDate.getMonth()];
+  
+  // Safe next month calculation to avoid date overflow issues
+  const nextMonthIndex = (now.getMonth() + 1) % 12;
+  const nextMonthName = months[nextMonthIndex];
 
 
   switch (step) {
@@ -567,8 +575,30 @@ export default function App() {
             progress={20}
             question="Um número cada vez maior de profissionais da psicologia recomenda o HipnoDURA +. Você recebeu recomendação de um(a) psicólogo(a)?" 
             options={["Sim", "Não"]} 
-            onSelect={(val: string) => { updateAnswer('psychologist', val); next('INTERSTITIAL_1'); }} 
+            onSelect={(val: string) => { updateAnswer('psychologist', val); next('TESTIMONIAL_1'); }} 
         />;
+
+    case 'TESTIMONIAL_1':
+        return <Interstitial 
+            text="Veja o depoimento de Antônio depois que conheceu o HipnoDURA +"
+            image="https://i.imgur.com/l5grIUl.jpg"
+            onNext={() => next('INTERSTITIAL_1')}
+        >
+             <div className="bg-green-50 p-5 rounded-xl text-left border border-green-100 relative shadow-sm mt-2">
+                <div className="absolute -top-3 left-4 bg-green-500 text-white px-3 py-0.5 rounded-full text-xs font-bold shadow-sm">COMPRA VERIFICADA</div>
+                <p className="text-zinc-700 italic text-sm mt-3 leading-relaxed">
+                    "Rapaz, vou te contar... eu já tinha tentado de tudo, viu? Gastava o que não tinha com remédio e só me dava dor de cabeça. A patroa já tava até perdendo a paciência.
+                    <br/><br/>
+                    Aí apareceu esse tal de HipnoDURA+. No começo fiquei meio assim, achando que era conversa fiada, mas resolvi tentar.
+                    <br/><br/>
+                    Olha, foi a melhor coisa que fiz! Hoje eu que mando no negócio, não passo mais vergonha e a mulher tá rindo à toa. O negócio funciona de verdade, pode confiar!"
+                </p>
+                <div className="mt-3 flex items-center gap-1">
+                    <span className="font-bold text-zinc-900 text-sm">Antônio Silva</span>
+                    <span className="text-yellow-500 text-sm">★★★★★</span>
+                </div>
+            </div>
+        </Interstitial>;
 
     case 'INTERSTITIAL_1':
         return <Interstitial 
@@ -639,9 +669,7 @@ export default function App() {
             text="Muitas das soluções disponíveis não tratam a causa raiz dos problemas de desempenho: o desalinhamento entre a mente consciente e subconsciente, que prejudica a confiança, o controle e o bem-estar sexual no geral. A hipnoterapia é diferente."
             chart={<PerformanceChart />}
             onNext={() => next('Q11')}
-        >
-             <p className="text-zinc-600 mt-4 text-center font-medium">De acordo com estudos clínicos, descobriu-se que a hipnoterapia trata e resolve essa falta de comunicação.</p>
-        </Interstitial>;
+        />;
 
     case 'Q11':
         return <QuizSingleSelect 

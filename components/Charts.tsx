@@ -11,7 +11,7 @@ export const PerformanceChart = () => {
   ];
 
   return (
-    <div className="w-full h-96 bg-white p-4 rounded-xl shadow-md border border-gray-100 relative flex flex-col">
+    <div className="w-full h-[30rem] bg-white p-4 rounded-xl shadow-md border border-gray-100 relative flex flex-col">
       <div className="text-center mb-4 shrink-0">
         <h3 className="text-sm font-bold text-gray-500 uppercase tracking-widest">Comparativo de Desempenho</h3>
       </div>
@@ -53,8 +53,14 @@ export const PerformanceChart = () => {
           </LineChart>
         </ResponsiveContainer>
       </div>
+
+      <div className="mt-4 px-2 text-center shrink-0">
+         <p className="text-xs text-zinc-600 font-medium leading-tight">
+            De acordo com estudos clínicos, descobriu-se que a hipnoterapia trata e resolve essa falta de comunicação.
+         </p>
+      </div>
       
-      <div className="mt-2 flex justify-center gap-4 text-xs shrink-0">
+      <div className="mt-3 flex justify-center gap-4 text-xs shrink-0 border-t border-gray-100 pt-3">
         <div className="flex items-center gap-1">
           <div className="w-3 h-3 rounded-full bg-green-600"></div>
           <span className="font-semibold text-green-800">Com HipnoDURA +</span>

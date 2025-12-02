@@ -20,6 +20,7 @@ export interface UserAnswers {
 export type StepType = 
   | 'INTRO'
   | 'Q1' | 'Q2' | 'Q3' | 'Q4'
+  | 'TESTIMONIAL_1'
   | 'INTERSTITIAL_1'
   | 'Q5' | 'Q6' | 'Q7'
   | 'INTERSTITIAL_2'
