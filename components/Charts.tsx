@@ -29,10 +29,6 @@ export const PerformanceChart = () => {
             <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#eee" />
             <XAxis dataKey="name" tick={{fontSize: 10}} interval={0} />
             <YAxis hide />
-            <Tooltip 
-              contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}
-              labelStyle={{ fontWeight: 'bold', color: '#333' }}
-            />
             <Line 
               type="monotone" 
               dataKey="hipno" 
