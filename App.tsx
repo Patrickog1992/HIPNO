@@ -585,6 +585,28 @@ export default function App() {
   const [step, setStep] = useState<StepType>('INTRO');
   const [answers, setAnswers] = useState<UserAnswers>({} as UserAnswers);
 
+  // Background Image Preloader
+  useEffect(() => {
+    const imageUrls = [
+      "https://i.imgur.com/l5grIUl.jpg",
+      "https://i.imgur.com/7aCjwTs.jpeg",
+      "https://i.imgur.com/z33P4uf.jpeg",
+      "https://i.imgur.com/KXHJEaU.jpeg",
+      "https://i.imgur.com/HiZ4txZ.jpeg",
+      "https://i.imgur.com/BJPY2Qu.jpeg",
+      "https://i.imgur.com/tBgJKYL.jpeg",
+      "https://i.imgur.com/fPRKetm.jpeg",
+      "https://i.imgur.com/go7d1Ms.jpeg",
+      "https://i.imgur.com/3HfXbnB.jpeg",
+      "https://i.imgur.com/aKhLzTh.jpeg"
+    ];
+
+    imageUrls.forEach((url) => {
+      const img = new Image();
+      img.src = url;
+    });
+  }, []);
+
   const updateAnswer = (key: keyof UserAnswers, value: any) => {
     setAnswers(prev => ({ ...prev, [key]: value }));
   };
