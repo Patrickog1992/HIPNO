@@ -868,6 +868,31 @@ export default function App() {
                      <p className="text-sm text-zinc-500 font-medium">Desenvolvido com a ajuda dos melhores especialistas em hipnoterapia</p>
 
                      <div className="mt-auto w-full pt-4">
+                        <Button onClick={() => next('VIDEO_SAMPLE')}>CONTINUAR</Button>
+                     </div>
+                </div>
+            </Layout>
+        );
+
+    case 'VIDEO_SAMPLE':
+        return (
+            <Layout>
+                <div className="flex-1 px-6 py-8 flex flex-col space-y-8 items-center text-center">
+                     <div>
+                        <h2 className="text-2xl font-bold text-zinc-900 mb-2">Ainda com dúvida?</h2>
+                        <p className="text-zinc-600 font-medium text-lg">Escute esse pequeno exemplo !</p>
+                     </div>
+
+                     <div className="w-full rounded-2xl overflow-hidden shadow-2xl bg-black border-4 border-zinc-100">
+                        <video 
+                            src="https://i.imgur.com/3XxCwQj.mp4" 
+                            controls 
+                            playsInline 
+                            className="w-full h-auto" 
+                        />
+                     </div>
+
+                     <div className="mt-auto w-full pt-4">
                         <Button onClick={() => next('SALES')}>CONTINUAR</Button>
                      </div>
                 </div>

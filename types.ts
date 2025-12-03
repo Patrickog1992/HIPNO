@@ -35,4 +35,5 @@ export type StepType =
   | 'RESULT_2'
   | 'RESULT_3'
   | 'RESULT_4'
+  | 'VIDEO_SAMPLE'
   | 'SALES';
