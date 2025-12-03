@@ -53,6 +53,67 @@ const Header = ({ progress }: { progress: number }) => (
   </div>
 );
 
+// --- NOTIFICATION COMPONENT ---
+
+const NotificationToast = () => {
+  const [show, setShow] = useState(false);
+  const [data, setData] = useState({ name: '', city: '' });
+
+  const users = [
+    { name: 'Ricardo', city: 'São Paulo' },
+    { name: 'João', city: 'Rio de Janeiro' },
+    { name: 'Felipe', city: 'Belo Horizonte' },
+    { name: 'Bruno', city: 'Curitiba' },
+    { name: 'André', city: 'Porto Alegre' },
+    { name: 'Carlos', city: 'Salvador' },
+    { name: 'Eduardo', city: 'Brasília' },
+    { name: 'Lucas', city: 'Fortaleza' },
+    { name: 'Gustavo', city: 'Recife' },
+    { name: 'Marcelo', city: 'Campinas' },
+    { name: 'Rafael', city: 'Goiânia' },
+    { name: 'Pedro', city: 'Manaus' },
+  ];
+
+  useEffect(() => {
+    let timeoutId: any;
+
+    const triggerNotification = () => {
+       const randomUser = users[Math.floor(Math.random() * users.length)];
+       setData(randomUser);
+       setShow(true);
+
+       // Hide after 4 seconds
+       setTimeout(() => {
+          setShow(false);
+          // Schedule next one between 8-15 seconds
+          const nextDelay = Math.random() * (15000 - 8000) + 8000;
+          timeoutId = setTimeout(triggerNotification, nextDelay);
+       }, 4000);
+    };
+
+    // Initial delay
+    timeoutId = setTimeout(triggerNotification, 5000);
+
+    return () => clearTimeout(timeoutId);
+  }, []);
+
+  return (
+    <div className={`fixed top-4 right-4 z-50 max-w-[90%] w-auto transition-all duration-700 transform ${show ? 'translate-y-0 opacity-100' : '-translate-y-4 opacity-0 pointer-events-none'}`}>
+      <div className="bg-white/95 backdrop-blur-sm border border-gray-100 shadow-xl rounded-lg p-3 flex items-center gap-3 pr-6">
+         <div className="bg-green-100 p-1.5 rounded-full shrink-0">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4 text-green-600">
+              <path fillRule="evenodd" d="M8.603 3.799A4.49 4.49 0 0112 2.25c1.357 0 2.573.6 3.397 1.549a4.49 4.49 0 013.498 1.307 4.491 4.491 0 011.307 3.497A4.49 4.49 0 0121.75 12a4.49 4.49 0 01-1.549 3.397 4.491 4.491 0 01-1.307 3.497 4.491 4.491 0 01-3.497 1.307A4.49 4.49 0 0112 21.75a4.49 4.49 0 01-3.397-1.549 4.49 4.49 0 01-3.498-1.306 4.491 4.491 0 01-1.307-3.498A4.49 4.49 0 012.25 12c0-1.357.6-2.573 1.549-3.397a4.49 4.49 0 011.307-3.497 4.49 4.49 0 013.497-1.307zm7.007 6.387a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z" clipRule="evenodd" />
+            </svg>
+         </div>
+         <div>
+            <p className="text-[11px] font-bold text-zinc-800 leading-tight">{data.name} de {data.city}</p>
+            <p className="text-[10px] text-zinc-500 leading-tight">acabou de receber acesso</p>
+         </div>
+      </div>
+    </div>
+  );
+};
+
 // --- VIEW COMPONENTS ---
 
 const Intro = ({ onNext }: { onNext: () => void }) => (
@@ -78,7 +139,7 @@ const QuizSingleSelect = ({ question, options, onSelect, progress }: any) => (
   <Layout>
     <Header progress={progress} />
     <div className="flex-1 px-6 py-8 flex flex-col">
-      <h2 className="text-2xl font-bold text-zinc-900 mb-8">{question}</h2>
+      <h2 className="text-2xl font-bold text-zinc-900 mb-8 text-center">{question}</h2>
       <div className="space-y-3">
         {options.map((opt: string) => (
           <Button key={opt} variant="secondary" onClick={() => onSelect(opt)} className="text-left justify-start px-6">
@@ -105,8 +166,8 @@ const QuizMultiSelect = ({ question, options, onNext, progress, subtitle }: any)
     <Layout>
       <Header progress={progress} />
       <div className="flex-1 px-6 py-8 flex flex-col">
-        <h2 className="text-2xl font-bold text-zinc-900 mb-2">{question}</h2>
-        {subtitle && <p className="text-zinc-500 mb-6">{subtitle}</p>}
+        <h2 className="text-2xl font-bold text-zinc-900 mb-2 text-center">{question}</h2>
+        {subtitle && <p className="text-zinc-500 mb-6 text-center">{subtitle}</p>}
         <div className="space-y-3 mb-8">
           {options.map((opt: string) => {
             const isSelected = selected.includes(opt);
@@ -135,7 +196,7 @@ const QuizMultiSelect = ({ question, options, onNext, progress, subtitle }: any)
 const Interstitial = ({ text, image, chart, children, onNext }: any) => (
   <Layout>
     <div className="flex-1 flex flex-col justify-center px-6 py-8 space-y-6 text-center">
-      <h2 className="text-xl font-medium text-zinc-800 leading-relaxed text-left">
+      <h2 className="text-xl font-medium text-zinc-800 leading-relaxed text-center">
         {text}
       </h2>
       {image && (
@@ -246,6 +307,8 @@ const SalesPage = ({ answers }: { answers: UserAnswers }) => {
   return (
     <div className="w-full bg-white font-['Poppins'] pb-8">
       
+      <NotificationToast />
+
       {/* Banner Static */}
       <div className="bg-red-600 text-white text-center py-3 px-4 shadow-md">
         <p className="text-sm font-medium">
@@ -284,7 +347,7 @@ const SalesPage = ({ answers }: { answers: UserAnswers }) => {
         </div>
 
         <div className="bg-gray-50 p-6 rounded-2xl border-l-4 border-green-500 shadow-sm">
-            <h3 className="text-xl font-bold text-zinc-900 mb-4">Volte a ser tratado como um homem de verdade…</h3>
+            <h3 className="text-xl font-bold text-zinc-900 mb-4 text-center">Volte a ser tratado como um homem de verdade…</h3>
             <ul className="space-y-4">
                 {[
                     "Redescubra o orgulho de saber que consegue comandar a situação na hora H",
@@ -302,7 +365,7 @@ const SalesPage = ({ answers }: { answers: UserAnswers }) => {
         </div>
 
         <div className="text-center space-y-2">
-            <h2 className="text-2xl font-bold text-zinc-900">Mantenha o controle e dure mais tempo</h2>
+            <h2 className="text-2xl font-bold text-zinc-900 text-center">Mantenha o controle e dure mais tempo</h2>
         </div>
 
         {/* Personalized Plan */}
@@ -353,7 +416,7 @@ const SalesPage = ({ answers }: { answers: UserAnswers }) => {
             <h2 className="text-2xl font-bold text-center">O QUE VOCÊ VAI RECEBER</h2>
             
             <div className="bg-green-50 p-6 rounded-xl border border-green-100">
-                <h3 className="font-bold text-lg text-green-800 mb-2">Oferta Especial Personalizada – HipnoDURA+</h3>
+                <h3 className="font-bold text-lg text-green-800 mb-2 text-center">Oferta Especial Personalizada – HipnoDURA+</h3>
                 <p className="text-sm text-zinc-700">Método HipnoDURA+ – Acesso Vitalício</p>
                 <p className="text-sm text-zinc-600 mt-2">Sessões de auto-hipnose guiada desenvolvidas para reprogramar sua mente e recuperar seu controle, potência e resistência sexual.</p>
             </div>
@@ -406,7 +469,7 @@ const SalesPage = ({ answers }: { answers: UserAnswers }) => {
                 <span className="block text-5xl font-extrabold text-green-600">R$ 47,00</span>
                 <span className="block text-zinc-500 text-sm">Pagamento Único</span>
             </div>
-            <Button className="w-full text-xl py-6 animate-pulse" onClick={() => window.open('https://pay.hotmart.com/example', '_blank')}>
+            <Button className="w-full text-xl py-6 animate-pulse" onClick={() => window.open('https://pay.kirvano.com/172a231a-c12f-4ce9-b50b-ec44161ed6d9', '_blank')}>
                 🔥 QUERO MEU PLANO AGORA
             </Button>
         </div>
@@ -476,7 +539,7 @@ const SalesPage = ({ answers }: { answers: UserAnswers }) => {
                     </div>
                 ))}
             </div>
-            <Button variant="primary" className="w-full mt-4 bg-white text-zinc-900 hover:bg-gray-100 shadow-none" onClick={() => window.open('https://pay.hotmart.com/example', '_blank')}>
+            <Button variant="primary" className="w-full mt-4 bg-white text-zinc-900 hover:bg-gray-100 shadow-none" onClick={() => window.open('https://pay.kirvano.com/172a231a-c12f-4ce9-b50b-ec44161ed6d9', '_blank')}>
                 QUERO O HIPNODURA+
             </Button>
         </div>
@@ -751,7 +814,7 @@ export default function App() {
                     </div>
                     
                     <div>
-                        <h3 className="text-lg font-bold text-zinc-900 mb-2">O que está bloqueando seu desempenho?</h3>
+                        <h3 className="text-lg font-bold text-zinc-900 mb-2 text-center">O que está bloqueando seu desempenho?</h3>
                         <div className="bg-white shadow-lg rounded-xl p-4 border border-gray-100">
                              <div className="flex justify-between items-center mb-2">
                                 <span className="font-bold text-red-600">Confiança reduzida</span>
@@ -788,7 +851,7 @@ export default function App() {
                     </div>
 
                     <div className="space-y-2">
-                        <h3 className="font-bold text-zinc-900">A hipnoterapia é algo seguro para você?</h3>
+                        <h3 className="font-bold text-zinc-900 text-center">A hipnoterapia é algo seguro para você?</h3>
                         <p className="text-zinc-600">Você é um candidato ideal para a hipnoterapia para melhorar suas experiências íntimas.</p>
                     </div>
 
